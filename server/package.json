@@ -1,0 +1,19 @@
+{
+  "name": "SpellBook DB Server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "node server.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mongodb": "^5.5.0",
+    "mongoose": "^7.2.1"
+  },
+  "keywords": [],
+  "author": "VoidKandy",
+  "license": "ISC"
+}

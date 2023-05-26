@@ -1,0 +1,15 @@
+.container {
+    margin-top: 40;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.textareaDefaultStyle {
+    border-radius: 1.2em;
+    padding: 5;
+    width: 400;
+    display: block;
+    resize: none;
+    background-color: #eee;
+}
