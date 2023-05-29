@@ -18,7 +18,8 @@
 }
 
 .create-prompt-button {
-  border-color: pink;
+  border: none;
+  background: black;
   color: black;
   width: 2em;
   height: 2em;
@@ -31,7 +32,5 @@
 .create-prompt-button:hover {
   background-color: black;
   border-color: white;
-  font-size: 0.9em;
-  color: pink;
+  color: white;
 }
-

@@ -3,6 +3,10 @@ const mongoose = require('mongoose');
 
 const promptSchema = mongoose.Schema(
   {
+    user_uuid: {
+      type: String,
+      required: [true, "Please enter a UUID"]
+    },
     name: {
       type: String,
       required: [true, "Please enter a name"]
@@ -13,6 +17,8 @@ const promptSchema = mongoose.Schema(
     },
     prompt: {
       type: String,
+      unique: true, 
+      dropDups: true,
       required: [true, "Please enter a prompt"]
     }
   },
@@ -31,4 +37,32 @@ Prompt.findOneAndDeleteByName = function(name) {
   return this.deleteMany({ name: name })
 };
 
-module.exports =  Prompt;
+
+const userSchema = mongoose.Schema(
+  {
+    name: {
+      type: String,
+      unique: true, 
+      dropDups: true,
+      required: [true, "Please enter username"]
+    },
+    uuid: {
+      type: String,
+      unique: true, 
+      dropDups: true,
+      required: [true, "Please enter UUID"]
+    }
+  },
+  {
+    timestamps: true
+  }
+)
+
+const User = mongoose.model("User", userSchema);
+
+User.findOneByName = function(name) {
+  return this.FindOne({ name: name }).exec();
+}
+
+
+module.exports =  {Prompt, User};
