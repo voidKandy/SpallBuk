@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import MongoDbController from '../api/MongoDbController';
 import CollectionDisplay from '../components/CollectionDisplay';
-import { User } from "../../types";
+import { User } from "../types";
 
 function UserListPage() {
   const [users, setUsers] = useState<User[]>([]);

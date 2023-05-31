@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import ResizableTextarea from './ResizableTextarea';
-import { User } from '../../types';
+import { User } from '../types';
 import MongoDbController from "../api/MongoDbController";
 import crypt from 'crypto';
 

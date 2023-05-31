@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import MongoDbController from '../api/MongoDbController';
 import CollectionDisplay from '../components/CollectionDisplay';
-import { Prompt } from "../../types";
+import { Prompt } from "../types";
 
 function YourPromptsPage() {
   const [prompts, setPrompts] = useState<Prompt[]>([]);

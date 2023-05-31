@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import ResizableTextarea from './ResizableTextarea';
+import { Prompt } from '../types';
 
 const PromptForm: React.FC = () => {
-  const [formValues, setFormValues] = useState({
-    name: '',
-    prompt: '',
-    description: ''
+  const [formValues, setFormValues] = useState<Prompt>({
+    user_uuid: "",
+    name: "",
+    description: "",
+    prompt: "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

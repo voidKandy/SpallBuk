@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route, Link } from "react-router-dom";
-import { Prompt, User } from "../../types";
+import { Prompt, User } from "../types";
 
 
 interface CollectionDisplayProps {
