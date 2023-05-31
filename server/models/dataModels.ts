@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+const ModelController = require('./ModelController.ts');
 
 const promptSchema = mongoose.Schema(
   {
@@ -27,16 +27,6 @@ const promptSchema = mongoose.Schema(
   }
 );
 
-const Prompt = mongoose.model("Prompt", promptSchema);
-
-Prompt.findByName = function(name) {
-  return this.findOne({ name: name }).exec();
-};
-
-Prompt.findOneAndDeleteByName = function(name) {
-  return this.deleteMany({ name: name })
-};
-
 
 const userSchema = mongoose.Schema(
   {
@@ -58,11 +48,11 @@ const userSchema = mongoose.Schema(
   }
 )
 
-const User = mongoose.model("User", userSchema);
+const promptModel = mongoose.model("Prompt", promptSchema);
+const Prompt = new ModelController(promptModel);
+const userModel = mongoose.model("User", userSchema);
+const User = new ModelController(userModel);
 
-User.findOneByName = function(name) {
-  return this.FindOne({ name: name }).exec();
-}
 
 
 module.exports =  {Prompt, User};

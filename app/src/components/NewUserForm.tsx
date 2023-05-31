@@ -20,20 +20,27 @@ const NewUserForm: React.FC = () => {
 
     async function pushUser(user: User) {
       const controller = new MongoDbController({collection: "users"});
-      const existingUser = await controller.getByName(formValues.name);
-      console.log(existingUser);
+      const existingUser = await controller.getByName(user.name);
+
+      let message;
       if (!existingUser) { 
-       await controller.postData(user);
-      } else {
-          console.log("Already Exists.");
+        try {
+          await controller.postData(user);
+          message = "User Created";
+        } catch (error) {
+          console.error(error);
       }
+      } else {
+          message = "Username already exists";
+      }
+      return message;
     }
 
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
         formValues.uuid = crypto.randomUUID();
         console.log(formValues);
-        pushUser(formValues);
+        let message = pushUser(formValues);
     };
 
     return (
