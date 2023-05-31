@@ -7,6 +7,9 @@ import CreatePromptPage from "./pages/CreatePromptPage";
 import YourPromptsPage from "./pages/YourPromptsPage";
 import UserListPage from "./pages/UserListPage";
 import NewUserPage from "./pages/NewUserPage";
+import Session from './api/Session';
+
+console.log();
 
 export default function App() {
   return (
@@ -20,6 +23,7 @@ export default function App() {
           <Route path="new-user" element={<NewUserPage />} />
         </Route>
       </Routes>
+      <Session />
     </BrowserRouter>
   );
 }

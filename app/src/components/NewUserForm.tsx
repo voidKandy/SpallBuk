@@ -3,6 +3,7 @@ import ResizableTextarea from './ResizableTextarea';
 import { User } from '../types';
 import MongoDbController from "../api/MongoDbController";
 import crypt from 'crypto';
+// import { Login } from '../auth/Login';
 
 const NewUserForm: React.FC = () => {
     const [formValues, setFormValues] = useState<User>({
@@ -41,7 +42,6 @@ const NewUserForm: React.FC = () => {
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
         formValues.uuid = crypto.randomUUID();
-        console.log(formValues);
         pushUser(formValues);
     };
 

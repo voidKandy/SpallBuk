@@ -1,15 +1,37 @@
 const { Prompt, User } = require('../models/dataModels.ts');
+const session = require('express-session');
 
 const collections = ['prompts', 'users'] 
 
 class Router { 
   constructor(app) {
     this.app = app;
-    
+      
+    app.use(session({
+      secret: "secret-key",
+      resave: false,
+      saveUninitialized: false, 
+    }));
+
+
     collections.forEach(col => {
       this.collectionRoutes(col);
-    })
+    });
+
+    app.get('/', (req, res) => {
+      try {
+        const sessionId = req.sessionID;
+        const data = {sessionId}
+
+        res.status(200).json(data);
+      } catch (error) {
+        console.log(error.message);
+        res.status(500).json({ message: error.message })
+      }
+      
+    });
   }
+  
 
   collectionRoutes(collection) {
     const { app } = this;
@@ -20,7 +42,7 @@ class Router {
     } else {
       model = User;
     }
-    // Posts
+
     app.post(`/${collection}`, async (req, res) => {
       try {
         const data = await model.model.create(req.body);
@@ -31,7 +53,6 @@ class Router {
       }
     });
 
-    // Get all datas
     app.get(`/${collection}`, async (req, res) => {
       try {
         const datas = await model.model.find({});

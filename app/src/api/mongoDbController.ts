@@ -1,5 +1,8 @@
 import axios from 'axios';
+import dotenv from 'dotenv';
 
+const url = process.env.REACT_APP_PUBLIC_URL;
+console.log(`URL: ${url}`)
 
 export class MongoDbController {
   constructor(private props: {collection: "prompts" | "users"}) {}
@@ -7,7 +10,7 @@ export class MongoDbController {
 
   async postData(data: object) {
     try {
-      const response = await axios.post(`http://localhost:8000/${this.props.collection}`, data);
+      const response = await axios.post(`${url}/${this.props.collection}`, data);
       console.log(response.data);
     } catch (error) {
       console.error(error);
@@ -16,7 +19,7 @@ export class MongoDbController {
 
   async dropDataByName(name: string) {
     try {
-      const response = await axios.delete(`http://localhost:8000/${this.props.collection}/${name}`);
+      const response = await axios.delete(`${url}/${this.props.collection}/${name}`);
       console.log(response.data);
     } catch (error) {
       console.error(error);
@@ -25,7 +28,7 @@ export class MongoDbController {
 
   async getByName(name: string) {
     try {
-      const response = await axios.get(`http://localhost:8000/${this.props.collection}/${name}`);
+      const response = await axios.get(`${url}/${this.props.collection}/${name}`);
       console.log(response.data);
       return response.data;
     } catch (error) {
@@ -35,7 +38,7 @@ export class MongoDbController {
 
   async getAllData() {
     try {
-      const response = await axios.get(`http://localhost:8000/${this.props.collection}`);
+      const response = await axios.get(`${url}/${this.props.collection}`);
       console.log(response.data);
       return response.data;
     } catch (error) {

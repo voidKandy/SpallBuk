@@ -1,7 +1,6 @@
 const express =  require('express');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
-const session = require('express-session');
 const cors = require('cors');
 const Router = require('./routes/Router.ts')
 require('dotenv').config()
@@ -29,11 +28,6 @@ app.listen(8000, () => {
   console.log("Server started on port 8000");
 })
 
-// app.use(session({
-//   secret: "",
-//   resave: false,
-//   saveUninitialized: false, 
-// }));
 
 
 new Router(app);
