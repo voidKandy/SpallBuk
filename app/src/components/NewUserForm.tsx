@@ -9,6 +9,7 @@ const NewUserForm: React.FC = () => {
       name: "",
       uuid: "",
     });
+    const [message, SetMessage] = useState<String>("");
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
@@ -29,18 +30,19 @@ const NewUserForm: React.FC = () => {
           message = "User Created";
         } catch (error) {
           console.error(error);
+          message = "Error creating user";
       }
       } else {
           message = "Username already exists";
       }
-      return message;
+      SetMessage(message);
     }
 
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
         formValues.uuid = crypto.randomUUID();
         console.log(formValues);
-        let message = pushUser(formValues);
+        pushUser(formValues);
     };
 
     return (
@@ -56,6 +58,7 @@ const NewUserForm: React.FC = () => {
           />
         </div>
         <button type="submit">Submit</button>
+         {message && <p>{message}</p>} 
       </form>
     )
   };
