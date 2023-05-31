@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const ModelController = require('./ModelController.ts');
+const ModelController = require('../controllers/ModelController.ts');
 
 const promptSchema = mongoose.Schema(
   {
@@ -27,7 +27,6 @@ const promptSchema = mongoose.Schema(
   }
 );
 
-
 const userSchema = mongoose.Schema(
   {
     name: {
@@ -52,7 +51,4 @@ const promptModel = mongoose.model("Prompt", promptSchema);
 const Prompt = new ModelController(promptModel);
 const userModel = mongoose.model("User", userSchema);
 const User = new ModelController(userModel);
-
-
-
 module.exports =  {Prompt, User};
