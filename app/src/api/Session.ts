@@ -14,7 +14,6 @@ const Session = () => {
       try {
          
         const response = await axios.get(`${url}/`);
-        console.log(`Response: ${response}`);
          
         const { sessionId } = response.data;
         console.log(`Response: ${sessionId}`);
