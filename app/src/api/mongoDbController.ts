@@ -2,10 +2,9 @@ import axios from 'axios';
 import dotenv from 'dotenv';
 
 const url = process.env.REACT_APP_PUBLIC_URL;
-console.log(`URL: ${url}`)
 
 export class MongoDbController {
-  constructor(private props: {collection: "prompts" | "users"}) {}
+  constructor(private props: {collection: "prompts" | "users" | "sessions"}) {}
 
 
   async postData(data: object) {

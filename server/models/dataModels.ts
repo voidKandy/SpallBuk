@@ -47,8 +47,34 @@ const userSchema = mongoose.Schema(
   }
 )
 
+const sessionSchema = mongoose.Schema(
+  {
+    // Session 'name'
+    name: {
+      type: String,
+      unique: true, 
+      dropDups: true,
+      required: [true, "Please enter sesison"]
+    },
+    user_uuid: {
+      type: String,
+      unique: true, 
+      dropDups: true,
+      required: [true, "Please enter UUID"]
+    }
+  },
+  {
+    timestamps: true
+  }
+)
+
 const promptModel = mongoose.model("Prompt", promptSchema);
 const Prompt = new ModelController(promptModel);
+
 const userModel = mongoose.model("User", userSchema);
 const User = new ModelController(userModel);
-module.exports =  {Prompt, User};
+
+const sessionModel = mongoose.model("Session", sessionSchema);
+const Session = new ModelController(sessionModel);
+
+module.exports =  {Prompt, User, Session};

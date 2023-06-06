@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import ResizableTextarea from './ResizableTextarea';
 import { Prompt } from '../types';
+import MongoDbController from '../api/MongoDbController';
+
+const sessionId = sessionStorage.getItem('sessionId'); 
 
 const PromptForm: React.FC = () => {
   const [formValues, setFormValues] = useState<Prompt>({
@@ -10,18 +13,62 @@ const PromptForm: React.FC = () => {
     prompt: "",
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
     setFormValues((prevValues) => ({
       ...prevValues,
       [name]: value
     }));
   };
 
+  const handlePromptChange = (value: string) => {
+    setFormValues((prevValues) => ({
+        ...prevValues,
+        prompt: value,
+    }));
+  };
+
+  const handleDescriptionChange = (value: string) => {
+    setFormValues((prevValues) => ({
+        ...prevValues,
+        description: value,
+    }));
+  };
+
+  async function pushPrompt(prompt: Prompt) {
+    const promptController = new MongoDbController({collection: 'prompts'});
+
+    let message;
+    try {
+      await promptController.postData(prompt);
+      message = "Prompt updated";
+    } catch (error) {
+      console.error(error);
+      message = "Problem updating prompt";
+    }
+    return message;
+  }
+  
+  async function getCurrentUser(sessionId: string | null) {
+    if (sessionId != null) {
+      const sessionController = new MongoDbController({collection: 'sessions'})
+      const currentSession = await sessionController.getByName(sessionId) 
+      setFormValues((prevValues) => ({
+          ...prevValues,
+          user_uuid: currentSession.user_uuid,
+      }));
+    } else {
+      console.log("SessionId is null")
+    }
+
+  }
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Perform any desired actions with the form data
-    console.log(formValues);
+
+    getCurrentUser(sessionId);
+    console.log(`Values: ${formValues.description}`);
+    pushPrompt(formValues);
   };
 
   return (
@@ -37,10 +84,10 @@ const PromptForm: React.FC = () => {
         />
       </div>
       <div>
-        <ResizableTextarea title="Prompt:"/>
+        <ResizableTextarea title="Prompt:" onChange={handlePromptChange}/>
       </div>
       <div>
-        <ResizableTextarea title="Description:"/>
+        <ResizableTextarea title="Description:" onChange={handleDescriptionChange}/>
     </div>
       <button type="submit">Submit</button>
     </form>

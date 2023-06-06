@@ -3,9 +3,13 @@ import ResizableTextarea from './ResizableTextarea';
 import { User } from '../types';
 import MongoDbController from "../api/MongoDbController";
 import crypt from 'crypto';
-// import { Login } from '../auth/Login';
+import Login from '../auth/Login';
 
-const NewUserForm: React.FC = () => {
+interface UserFormProps {
+  mode: 'add'|'login';
+}
+
+const UserForm: React.FC<UserFormProps> = ({mode}) => {
     const [formValues, setFormValues] = useState<User>({
       name: "",
       uuid: "",
@@ -25,24 +29,45 @@ const NewUserForm: React.FC = () => {
       const existingUser = await controller.getByName(user.name);
 
       let message;
-      if (!existingUser) { 
+
+     if (!existingUser) {
         try {
           await controller.postData(user);
-          message = "User Created";
+          message = "Your username has been added";
         } catch (error) {
           console.error(error);
           message = "Error creating user";
-      }
+        }
+      } else if (existingUser.name == user.name) { 
+        message = "Username already exists";
+      } else if (user.name == '') {
+        message = "Please input a username";
       } else {
-          message = "Username already exists";
-      }
+      message = "Undefined Error";
+    }
       SetMessage(message);
     }
 
+    async function loginUser(username: string) {
+      if (username != '') {
+         try {
+          Login(username);
+          SetMessage("Logged in")
+        } catch {
+          SetMessage("Problem logging in")
+        }
+      }
+    }
+
     const handleSubmit = (event: React.FormEvent) => {
-        event.preventDefault();
-        formValues.uuid = crypto.randomUUID();
+      event.preventDefault();
+      formValues.uuid = crypto.randomUUID();
+
+      if (mode == 'add') {
         pushUser(formValues);
+      } else if (mode == 'login') {
+        loginUser(formValues.name)
+      }
     };
 
     return (
@@ -63,4 +88,4 @@ const NewUserForm: React.FC = () => {
     )
   };
 
-  export default NewUserForm;
+  export default UserForm;

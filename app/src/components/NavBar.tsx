@@ -7,7 +7,7 @@ function NavBar() {
     <nav>
       <ul>
         <button className="create-prompt-button">
-          <Link to="/create" style={{ textDecoration: 'none', color: 'white', padding: '5px' }}> + </Link>
+          <Link to="/create-prompt" style={{ textDecoration: 'none', color: 'white', padding: '5px' }}> + </Link>
         </button>
       </ul>
     </nav>

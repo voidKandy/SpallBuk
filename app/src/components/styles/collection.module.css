@@ -1,0 +1,30 @@
+.container {
+  background-color: black;
+  color: white;
+  padding: 1em;
+  border-radius: 15px;
+  transition: all 3s ease-in-out;
+}
+
+.edit-button {
+  border-radius: .5em;
+  border: none;
+  padding: .2em .7em;
+  transition: all 0.7s ease-in-out;
+}
+
+.edit-button:hover {
+  border-radius: 2em;
+}
+
+.name {
+  
+}
+
+.description {
+
+}
+
+.prompts {
+
+}

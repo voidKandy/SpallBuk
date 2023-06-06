@@ -3,21 +3,28 @@ import "../globals.css";
 
 interface ResizableTextareaProps {
   title?: string;
+  onChange?: (value: string) => void; // Callback function to receive the updated value
 }
 
-const ResizableTextarea: React.FC<ResizableTextareaProps> = (
-  {
-    title
-  }) => {
+const ResizableTextarea: React.FC<ResizableTextareaProps> = ({
+  title,
+  onChange
+}) => {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
-  const [value, setValue] = useState<String>();
+  const [value, setValue] = useState<string>("");
 
   const textAreaChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setValue(event.target.value);
+    const updatedValue = event.target.value;
+    setValue(updatedValue);
+
+    // Invoke the onChange callback with the updated value
+    if (onChange) {
+      onChange(updatedValue);
+    }
   };
-  
+
   useEffect(() => {
-    if (textareaRef && textareaRef.current) {
+    if (textareaRef.current) {
       textareaRef.current.style.height = "0px";
       const scrollHeight = textareaRef.current.scrollHeight;
       textareaRef.current.style.height = scrollHeight + "px";
@@ -31,9 +38,8 @@ const ResizableTextarea: React.FC<ResizableTextareaProps> = (
         ref={textareaRef}
         className="textareaDefaultStyle"
         onChange={textAreaChange}
-      >
-        {value}
-      </textarea>
+        value={value} // Set the value of the textarea
+      />
     </div>
   );
 };

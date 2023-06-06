@@ -2,12 +2,12 @@ import React from 'react';
 import UserForm from '../components/UserForm';
 
 
-function NewUserPage() {
+function LoginPage() {
   return (
     <div className="container">
-      <UserForm mode="add" />
+      <UserForm mode="login" />
     </div>
   );
 }
 
-export default NewUserPage;
+export default LoginPage;

@@ -9,3 +9,8 @@ export type User = {
   name: string,
   uuid: string,
 }
+
+export type Session = {
+  name: string,
+  user_uuid: string,
+}
