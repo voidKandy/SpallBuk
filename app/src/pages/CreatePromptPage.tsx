@@ -1,10 +1,12 @@
 import React from 'react';
 import PromptForm from '../components/PromptForm';
+import HomeButton from "../components/HomeButton";
 
 function CreatePromptPage() {
   return (
     <div className="container">
-        <PromptForm />
+      <HomeButton />
+      <PromptForm />
     </div>
   );
 }

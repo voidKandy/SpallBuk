@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import ResizableTextarea from './ResizableTextarea';
 import { Prompt } from '../types';
 import MongoDbController from '../api/MongoDbController';
+import "../globals.css";
 
 const sessionId = sessionStorage.getItem('sessionId'); 
 
 const PromptForm: React.FC = () => {
   const [formValues, setFormValues] = useState<Prompt>({
-    user_uuid: "",
+    uuid: "",
     name: "",
     description: "",
     prompt: "",
@@ -55,7 +56,7 @@ const PromptForm: React.FC = () => {
       const currentSession = await sessionController.getByName(sessionId) 
       setFormValues((prevValues) => ({
           ...prevValues,
-          user_uuid: currentSession.user_uuid,
+          uuid: currentSession.uuid,
       }));
     } else {
       console.log("SessionId is null")
@@ -67,14 +68,14 @@ const PromptForm: React.FC = () => {
     e.preventDefault();
 
     getCurrentUser(sessionId);
-    console.log(`Values: ${formValues.description}`);
+    // console.log(`Values: ${formValues.description}`);
     pushPrompt(formValues);
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="name">Name:</label>
+      <div className="text-white">
+       <label htmlFor="name">Name:</label>
         <input
           type="text"
           id="name"
@@ -88,8 +89,8 @@ const PromptForm: React.FC = () => {
       </div>
       <div>
         <ResizableTextarea title="Description:" onChange={handleDescriptionChange}/>
-    </div>
-      <button type="submit">Submit</button>
+     </div>
+      <h3 className="links">[ Submit ]</h3>
     </form>
   );
 };

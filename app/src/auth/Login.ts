@@ -24,16 +24,15 @@ const Login = async(userId: string) => {
   }
 
   const newSession = {
-    user_uuid: userInfo.uuid,
+    uuid: userInfo.uuid,
     name: sessionId,
   };
     
   if (existingSession == null) {
     try {
       await sessionController.postData(newSession);
-      console.log("Added Session");
+
     } catch (error) {
-      console.log("NOPE")
       console.error(error);
     }
   }

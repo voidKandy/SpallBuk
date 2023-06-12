@@ -1,5 +1,5 @@
 export type Prompt = {
-  user_uuid: string,
+  uuid: string,
   name: string,
   description: string,
   prompt: string,
@@ -12,5 +12,5 @@ export type User = {
 
 export type Session = {
   name: string,
-  user_uuid: string,
+  uuid: string,
 }

@@ -1,9 +1,8 @@
 const mongoose = require('mongoose');
-const ModelController = require('../controllers/ModelController.ts');
 
 const promptSchema = mongoose.Schema(
   {
-    user_uuid: {
+    uuid: {
       type: String,
       required: [true, "Please enter a UUID"]
     },
@@ -54,12 +53,10 @@ const sessionSchema = mongoose.Schema(
       type: String,
       unique: true, 
       dropDups: true,
-      required: [true, "Please enter sesison"]
+      required: [true, "Please enter session"]
     },
-    user_uuid: {
+    uuid: {
       type: String,
-      unique: true, 
-      dropDups: true,
       required: [true, "Please enter UUID"]
     }
   },
@@ -69,12 +66,9 @@ const sessionSchema = mongoose.Schema(
 )
 
 const promptModel = mongoose.model("Prompt", promptSchema);
-const Prompt = new ModelController(promptModel);
 
 const userModel = mongoose.model("User", userSchema);
-const User = new ModelController(userModel);
 
 const sessionModel = mongoose.model("Session", sessionSchema);
-const Session = new ModelController(sessionModel);
 
-module.exports =  {Prompt, User, Session};
+module.exports =  {promptModel, userModel, sessionModel};

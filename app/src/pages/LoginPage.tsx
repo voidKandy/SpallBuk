@@ -1,13 +1,22 @@
-import React from 'react';
+import React, { Component } from 'react';
 import UserForm from '../components/UserForm';
 
-
-function LoginPage() {
-  return (
-    <div className="container">
-      <UserForm mode="login" />
-    </div>
-  );
+interface LoginPageProps {
+  toggle: () => void;
 }
 
-export default LoginPage;
+export default class LoginPage extends Component<LoginPageProps> {
+  closeLoginForm = () => {
+    this.props.toggle();
+    window.location.href="/";
+  };
+
+  render() {
+    return (
+      <div className="container">
+        <UserForm mode="login" onSubmit={this.closeLoginForm}/>
+      </div>
+    );
+  }
+}
+

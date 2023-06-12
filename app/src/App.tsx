@@ -23,7 +23,6 @@ export default function App() {
           <Route path="your-prompts" element={<YourPromptsPage />} />
           <Route path="users" element={<UserListPage />} />
           <Route path="new-user" element={<NewUserPage />} />
-          <Route path="login" element={<LoginPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

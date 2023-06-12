@@ -1,0 +1,16 @@
+.resize_container {
+  padding: .5em;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.resize_textarea {
+    border-radius: 1.2em;
+    padding: 5;
+    width: 400;
+    display: block;
+    resize: none;
+    background-color: #eee;
+}

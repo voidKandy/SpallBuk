@@ -7,9 +7,10 @@ import Login from '../auth/Login';
 
 interface UserFormProps {
   mode: 'add'|'login';
+  onSubmit: () => void;
 }
 
-const UserForm: React.FC<UserFormProps> = ({mode}) => {
+const UserForm: React.FC<UserFormProps> = ({mode, onSubmit}) => {
     const [formValues, setFormValues] = useState<User>({
       name: "",
       uuid: "",
@@ -53,6 +54,9 @@ const UserForm: React.FC<UserFormProps> = ({mode}) => {
          try {
           Login(username);
           SetMessage("Logged in")
+          setTimeout(() => {
+            onSubmit();
+          }, 200);
         } catch {
           SetMessage("Problem logging in")
         }

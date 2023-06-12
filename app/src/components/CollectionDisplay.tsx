@@ -71,33 +71,49 @@ class CollectionDisplay extends React.Component<CollectionDisplayProps, Collecti
     );
   }
 
+  copyToClipboard(content: string) {
+
+  };
+
   renderInfo(data: Prompt | User) {
     const {editing, saving} = this.state;
 
     if (this.isUser(data)) {
       return (
         <div>
+          User has no info
         </div>
       );
     }
 
-    const description = data.description;
-    const prompt = data.prompt;
+    const description = (data as Prompt).description;
+    const prompt = (data as Prompt).prompt;
 
     return (
       <div>
        <h6 className="description">{editing ? <input defaultValue={description} /> : description}</h6>
         <h5 className="prompt">{editing ? <input defaultValue={prompt} /> : prompt}</h5>
-        <button className="edit-button" onClick={editing? this.toggleSaving:this.toggleEditing}>
-          {editing ? 'Save' : 'Edit'}
-        </button>
+        {editing ? 
+            <h3 className="links" onClick={editing? this.toggleSaving:this.toggleEditing}>
+              [ Save ]
+            </h3>
+         : 
+          <div>
+            <h3 className="links" onClick={editing? this.toggleSaving:this.toggleEditing}>
+              [ Edit ]
+            </h3>
+            <h3 className="links" onClick = {() => this.copyToClipboard(prompt)}>
+              [ Copy ]
+            </h3>
+          </div>
+        }
       </div>
     )
 
   }
 
   isUser(data: Prompt | User): data is User {
-    return (data as User).uuid !== undefined;
+    return (data as Prompt).description === undefined;
   }
 
   render() {

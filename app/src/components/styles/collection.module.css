@@ -1,5 +1,5 @@
 .container {
-  background-color: black;
+  background-color: grey;
   color: white;
   padding: 1em;
   border-radius: 15px;
@@ -18,13 +18,15 @@
 }
 
 .name {
+  color:white;
   
 }
 
 .description {
-
+  color:white;
 }
 
 .prompts {
+  color:white;
 
 }

@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import MongoDbController from '../api/MongoDbController';
 import CollectionDisplay from '../components/CollectionDisplay';
 import { Prompt } from "../types";
+import HomeButton from "../components/HomeButton";
 
 function YourPromptsPage() {
   const [prompts, setPrompts] = useState<Prompt[]>([]);
@@ -22,6 +23,7 @@ function YourPromptsPage() {
 
   return (
     <div className="container">
+      <HomeButton />
       <CollectionDisplay prompts={prompts}/>
     </div>
   );

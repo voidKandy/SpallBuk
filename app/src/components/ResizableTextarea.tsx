@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import "../globals.css";
+import styles from "./styles/text.module.css";
 
 interface ResizableTextareaProps {
   title?: string;
@@ -32,11 +32,11 @@ const ResizableTextarea: React.FC<ResizableTextareaProps> = ({
   }, [value]);
 
   return (
-    <div className="container">
+    <div className={styles.resize_container}>
       <h3>{title}</h3>
       <textarea
         ref={textareaRef}
-        className="textareaDefaultStyle"
+        className={styles.resize_textarea}
         onChange={textAreaChange}
         value={value} // Set the value of the textarea
       />

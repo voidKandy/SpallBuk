@@ -6,6 +6,17 @@ const url = process.env.REACT_APP_PUBLIC_URL;
 export class MongoDbController {
   constructor(private props: {collection: "prompts" | "users" | "sessions"}) {}
 
+  // if (this.props.collection == "users") {
+  //
+  async getUserFromSID(sessionId: String) {
+    try {
+      let response = await axios.get(`${url}/sessions/${sessionId}`)
+      return response.data.uuid;
+    } catch(error) {
+      console.error(error);
+    }
+  }
+  
 
   async postData(data: object) {
     try {
@@ -16,10 +27,30 @@ export class MongoDbController {
     }
   }
 
-  async dropDataByName(name: string) {
+async dropDataByName(name: string) {
     try {
       const response = await axios.delete(`${url}/${this.props.collection}/${name}`);
       console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async getCountForUid(n: string, x: string) {
+    try {
+      const response = await axios.get(`${url}/${n}/by_id/${x}`);
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async getByUUID(uuid: string) {
+    try {
+      const response = await axios.get(`${url}/${this.props.collection}/by_id/${uuid}`);
+      console.log(response.data);
+      return response.data;
     } catch (error) {
       console.error(error);
     }
@@ -47,9 +78,3 @@ export class MongoDbController {
 };
 
 export default MongoDbController;
-
-// const controller = new MongoDbController();
-//
-// controller.dropDataByName('John Doe');
-// controller.getAllData();
-

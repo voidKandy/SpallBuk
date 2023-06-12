@@ -1,5 +1,7 @@
 .container {
   text-align: center;
+  background-color: black;
+  height: 100vh;
 }
 
 .header {
@@ -13,24 +15,42 @@
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
-}
 
-.create-prompt-button {
-  border: none;
-  background: black;
-  color: black;
-  width: 2em;
-  height: 2em;
-  border-radius: 0.5em;
-  font-weight: 900;
+.links {
+  padding: .5em;
+  cursor: pointer;
+  font-family: monospace;
+  text-decoration: none;
   font-size: 1em;
+  color: magenta;
   transition: color 1s, font-size .5s, background-color .7s, border-color 1s ease-in-out;
 }
 
-.create-prompt-button:hover {
-  background-color: black;
-  border-color: white;
+.links:hover {
+}
+
+.home-button {
+  font-size: 2em;
+  padding: 1em;
+  padding: 1em;
+  text-decoration: none;
+  color: cyan;
+}
+
+.auth-container {
+  margin-top: 5em;
+}
+
+.auth-button {
+  background-color: transparent;
   color: white;
+  font-size: 1em;
+  padding: .5em;
+  border: none;
+  transition: color 5s, ease-in-out;
+}
+
+.auth-button:hover {
+  color: green;
+
 }
