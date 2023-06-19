@@ -17,12 +17,11 @@ const UserForm: React.FC<UserFormProps> = ({mode, onSubmit}) => {
     });
     const [message, SetMessage] = useState<String>("");
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = event.target;
-        setFormValues((prevValues) => ({
-            ...prevValues,
-            [name]: value
-        }));
+    const handleChange = (value: string) => {
+      setFormValues((prevValues) => ({
+          ...prevValues,
+          name: value,
+      }));
     };
 
     async function pushUser(user: User) {
@@ -75,18 +74,11 @@ const UserForm: React.FC<UserFormProps> = ({mode, onSubmit}) => {
     };
 
     return (
-      <form onSubmit={handleSubmit}>
+      <form>
         <div>
-          <label htmlFor="name">Username:</label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value={formValues.name}
-            onChange={handleChange}
-          />
-        </div>
-        <button type="submit">Submit</button>
+          <ResizableTextarea title="User Name:" onChange={handleChange}/>
+       </div>
+        <h2 onClick={handleSubmit} className="links">[ Submit ]</h2>
          {message && <p>{message}</p>} 
       </form>
     )

@@ -47,14 +47,14 @@ const UserDisplay: React.FC<UserDisplayProps> = ({ sessionID }) => {
   if (userInfo != null) {
     return (
       <div className={styles.user}>
+        <h2>
+          Welcome
+        </h2>
         <h1 className={styles.username}>
-          Welcome {userInfo.name}
+          {userInfo.name}
         </h1>
         <h5>
-          {userInfo.n_prompts} prompts found
-        </h5>
-        <h5>
-           {userInfo.n_active_sessions} active sessions 
+           You have {userInfo.n_active_sessions} active sessions 
         </h5>
       </div>
     );

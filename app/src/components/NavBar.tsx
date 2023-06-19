@@ -2,6 +2,7 @@ import  { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Logout } from '../auth/Logout';
 import MongoDbController from '../api/MongoDbController';
+import NewUserPage from '../pages/NewUserPage';
 import LoginPage from '../pages/LoginPage';
 import UserDisplay from "../components/UserDisplay";
 
@@ -10,6 +11,7 @@ interface NavBarProps {}
 interface NavBarState {
   isLoggedIn: boolean;
   showLoginPopup: boolean;
+  showNewUserPopup: boolean;
   sessionId: string | undefined;
 }
 
@@ -19,6 +21,7 @@ class NavBar extends Component<NavBarProps, NavBarState> {
     this.state = {
       isLoggedIn: false,
       showLoginPopup: false,
+      showNewUserPopup: false,
       sessionId: undefined,
     };
   }
@@ -71,6 +74,12 @@ class NavBar extends Component<NavBarProps, NavBarState> {
     }));
   };
 
+  toggleNewUserPopup = () => {
+    this.setState((prevState) => ({
+      showNewUserPopup: !prevState.showNewUserPopup,
+    }));
+  };
+
   logoutAndRefresh = async () => {
     const success = await Logout();
     if (success == 0) {
@@ -79,7 +88,7 @@ class NavBar extends Component<NavBarProps, NavBarState> {
   };
 
   render() {
-    const { isLoggedIn, showLoginPopup } = this.state;
+    const { isLoggedIn, showLoginPopup, showNewUserPopup } = this.state;
 
     return (
       <div>
@@ -92,8 +101,10 @@ class NavBar extends Component<NavBarProps, NavBarState> {
           ) : (
             <button className="auth-button" onClick={this.toggleLoginPopup}>[Log In]</button>
           )}
+        <button className="auth-button" onClick={this.toggleNewUserPopup}>[Create User]</button>
         </div>
         {showLoginPopup && <LoginPage toggle={this.toggleLoginPopup} />}
+        {showNewUserPopup && <NewUserPage toggle={this.toggleNewUserPopup} />}
       </div>
     );
   }

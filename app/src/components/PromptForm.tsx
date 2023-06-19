@@ -14,11 +14,10 @@ const PromptForm: React.FC = () => {
     prompt: "",
   });
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
+  const handleNameChange = (value: string) => {
     setFormValues((prevValues) => ({
-      ...prevValues,
-      [name]: value
+        ...prevValues,
+        name: value,
     }));
   };
 
@@ -68,21 +67,14 @@ const PromptForm: React.FC = () => {
     e.preventDefault();
 
     getCurrentUser(sessionId);
-    // console.log(`Values: ${formValues.description}`);
+    console.log(`Values: ${formValues.uuid}`);
     pushPrompt(formValues);
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form>
       <div className="text-white">
-       <label htmlFor="name">Name:</label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          value={formValues.name}
-          onChange={handleChange}
-        />
+        <ResizableTextarea title="Name:" onChange={handleNameChange}/>
       </div>
       <div>
         <ResizableTextarea title="Prompt:" onChange={handlePromptChange}/>
@@ -90,7 +82,7 @@ const PromptForm: React.FC = () => {
       <div>
         <ResizableTextarea title="Description:" onChange={handleDescriptionChange}/>
      </div>
-      <h3 className="links">[ Submit ]</h3>
+      <h3 className="links" onClick={handleSubmit}>[ Submit ]</h3>
     </form>
   );
 };

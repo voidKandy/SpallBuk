@@ -3,6 +3,7 @@ import MongoDbController from '../api/MongoDbController';
 import CollectionDisplay from '../components/CollectionDisplay';
 import { Prompt } from "../types";
 import HomeButton from "../components/HomeButton";
+import styles from './styles/collection.module.css';
 
 function YourPromptsPage() {
   const [prompts, setPrompts] = useState<Prompt[]>([]);
@@ -22,9 +23,11 @@ function YourPromptsPage() {
 
 
   return (
-    <div className="container">
+    <div className="flex"> 
       <HomeButton />
-      <CollectionDisplay prompts={prompts}/>
+      <div className="flex flex-row">
+        <CollectionDisplay prompts={prompts}/>
+      </div>
     </div>
   );
 }

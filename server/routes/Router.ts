@@ -127,6 +127,22 @@ class Router {
         res.status(500).json({ message: error.message });
       }
     });
+    app.put(`/${collection}/:name`, async (req, res) => {
+      try {
+        const { name } = req.params;
+        const updateData = req.body;
+
+        const data = await model.findOneAndUpdate({ name: name }, updateData, { new: true });
+
+        if (!data) {
+          return res.status(404).json({ message: 'None found to update' });
+        }
+
+        res.status(200).json(data);
+      } catch (error) {
+        res.status(500).json({ message: error.message });
+      }
+    });
   }
 }
 

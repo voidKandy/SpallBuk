@@ -1,15 +1,22 @@
 import React from 'react';
 import { Prompt, User } from "../types";
 import styles from './styles/collection.module.css';
+import MongoDbController from "../api/MongoDbController";
 
 interface CollectionDisplayProps {
   prompts?: Prompt[];
   users?: User[];
 }
 
+interface PromptInfo {
+  prompt: string
+  results: { value: string; }[];
+}
+
 interface CollectionDisplayState {
   editing: boolean;
-  saving: boolean;
+  showCopyWindow: boolean;
+  promptInfo: PromptInfo;
 }
 
 class CollectionDisplay extends React.Component<CollectionDisplayProps, CollectionDisplayState> {
@@ -17,7 +24,11 @@ class CollectionDisplay extends React.Component<CollectionDisplayProps, Collecti
     super(props);
     this.state = {
       editing: false,
-      saving: false
+      showCopyWindow: false,
+      promptInfo: {
+        prompt: "",
+        results: [],
+      },
     };
   }
 
@@ -27,12 +38,10 @@ class CollectionDisplay extends React.Component<CollectionDisplayProps, Collecti
     }));
   };
 
-  toggleSaving = () => {
-    this.setState((prevState) => ({
-      saving: !prevState.saving
-    }));
 
-  };
+  closeCopyWindow() {
+    this.setState({ showCopyWindow: false });
+  }
   
 
   renderData() {
@@ -45,7 +54,7 @@ class CollectionDisplay extends React.Component<CollectionDisplayProps, Collecti
       );
     } else {
       return (
-        <div>
+        <div className={styles.prompts_grid}>
           {data.map((item) => {
             return (
               <div className={styles.container}>
@@ -71,13 +80,39 @@ class CollectionDisplay extends React.Component<CollectionDisplayProps, Collecti
     );
   }
 
-  copyToClipboard(content: string) {
+  async savePrompt(prompt: Prompt) {
+    const promptController = new MongoDbController({collection: "prompts"});
+    await promptController.editData(prompt.name, prompt);
+    console.log(prompt);
+  }
+
+  async deletePrompt(prompt: Prompt) {
+    const promptController = new MongoDbController({collection: "prompts"});
+    await promptController.dropDataByName(prompt.name);
+  }
+
+  async parsePrompt(prompt: string) {
+    const regex = /{{(.*?)}}/g;
+    let match;
+    const results = [];
+
+    while ((match = regex.exec(prompt)) !== null) {
+      const extractedValue = match[1];
+      results.push({ value: extractedValue });
+    }
+
+    this.setState({ showCopyWindow: true, promptInfo: {prompt, results} });
+    return results;
+  }
+
+  async copyToClipboard(content: string) {
+    await navigator.clipboard.writeText(content);
 
   };
 
   renderInfo(data: Prompt | User) {
-    const {editing, saving} = this.state;
-
+    const {editing} = this.state;
+    
     if (this.isUser(data)) {
       return (
         <div>
@@ -89,22 +124,40 @@ class CollectionDisplay extends React.Component<CollectionDisplayProps, Collecti
     const description = (data as Prompt).description;
     const prompt = (data as Prompt).prompt;
 
+
+    const descriptionInputRef = React.createRef<HTMLInputElement>(); 
+    const promptInputRef = React.createRef<HTMLInputElement>(); 
+
+    const handleSave = (data: Prompt) => {
+      const newDescription = descriptionInputRef.current?.value;
+      const newPrompt = promptInputRef.current?.value;
+      data.description = newDescription as string;
+      data.prompt = newPrompt as string;
+      this.savePrompt(data);
+      this.toggleEditing();
+    };
+
     return (
       <div>
-       <h6 className="description">{editing ? <input defaultValue={description} /> : description}</h6>
-        <h5 className="prompt">{editing ? <input defaultValue={prompt} /> : prompt}</h5>
+       <h6 className="description">{editing ? <input defaultValue={description} ref={descriptionInputRef} /> : description}</h6>
+        <h5 className="prompt">{editing ? <input defaultValue={prompt} ref={promptInputRef} /> : prompt}</h5>
         {editing ? 
-            <h3 className="links" onClick={editing? this.toggleSaving:this.toggleEditing}>
+          <div>
+            <h2 className="links" onClick={() => handleSave(data)}>
               [ Save ]
-            </h3>
+            </h2>
+            <h2 className="links" onClick = {() => this.deletePrompt(data)}>
+              [ Delete ]
+            </h2>
+          </div>
          : 
           <div>
-            <h3 className="links" onClick={editing? this.toggleSaving:this.toggleEditing}>
+            <h2 className="links" onClick={this.toggleEditing}>
               [ Edit ]
-            </h3>
-            <h3 className="links" onClick = {() => this.copyToClipboard(prompt)}>
-              [ Copy ]
-            </h3>
+            </h2>
+            <h2 className="links" onClick = {() => this.parsePrompt(prompt)}>
+              [ Select ]
+            </h2>
           </div>
         }
       </div>
@@ -116,10 +169,50 @@ class CollectionDisplay extends React.Component<CollectionDisplayProps, Collecti
     return (data as Prompt).description === undefined;
   }
 
+  renderCopyWindow(promptInfo: PromptInfo) {
+    const handleClick = () => {
+     const values = promptInfo.results.map((field) => {
+        const inputElement = document.querySelector(`input[name="${field.value}"]`) as HTMLInputElement;
+        return inputElement.value;
+      });
+      let newPrompt = promptInfo.prompt;
+      promptInfo.results.forEach((field, i) => {
+        newPrompt = newPrompt.replace(`{{${field.value}}}`, values[i]);
+      });
+
+      console.log(values);
+      console.log(newPrompt);
+      this.copyToClipboard(newPrompt);
+      this.closeCopyWindow()
+    };
+    return (
+      <div className="copy-window">
+        <p>{promptInfo.prompt}</p>
+        <div className="flex flex-col">
+          {promptInfo.results.map((field) => (
+          <div>
+            <input 
+              name={field.value}
+              placeholder={field.value}
+            />
+          </div>
+        ))}
+        </div>
+        <h2 className="links" onClick={() => 
+         handleClick()
+        }>[ Copy and Close ]</h2>
+      </div>
+    )
+  }
+
   render() {
+    const {showCopyWindow, promptInfo} = this.state;
     return (
       <div>
         {this.renderData()}
+          {showCopyWindow && (
+          this.renderCopyWindow(promptInfo)
+         )}
       </div>
     );
   }

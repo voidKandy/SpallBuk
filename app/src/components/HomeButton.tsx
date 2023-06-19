@@ -5,7 +5,7 @@ import React from "react";
 const HomeButton: React.FC = () => {
 
   return (
-    <div>
+    <div className="home-button-container">
       <Link to="/" className="home-button">
         [ Spållßµk ]
       </Link>

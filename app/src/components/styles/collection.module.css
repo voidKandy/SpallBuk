@@ -1,9 +1,15 @@
 .container {
-  background-color: grey;
+  background-color: #2D2E50;
+  margin: 1em;
   color: white;
-  padding: 1em;
-  border-radius: 15px;
+  padding: .5em;
+  border-radius: 10px;
   transition: all 3s ease-in-out;
+}
+
+.prompts_grid {
+  display: flex;
+  direction: row;
 }
 
 .edit-button {

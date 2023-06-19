@@ -1,5 +1,4 @@
 import axios from 'axios';
-import dotenv from 'dotenv';
 
 const url = process.env.REACT_APP_PUBLIC_URL;
 
@@ -13,6 +12,15 @@ export class MongoDbController {
       let response = await axios.get(`${url}/sessions/${sessionId}`)
       return response.data.uuid;
     } catch(error) {
+      console.error(error);
+    }
+  }
+  
+  async editData(name: string, data: object) {
+    try {
+      const response = await axios.put(`${url}/${this.props.collection}/${name}`, data);
+      console.log(response.data);
+    } catch (error) {
       console.error(error);
     }
   }
